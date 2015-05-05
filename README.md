@@ -16,7 +16,11 @@ Use Instructions:
 5) If the update causes irregular behaviour, try deleting the original assets and then reimporting the .scml file
 
 Changelog:
-
+<br>
+v1.0.0.1:<br>
+Added:<br>
+-Support for multiple materials instead one per model (assumes that material have same name as sprite)<br>
+<br>
 v1.0.2:<br>
 Fixes:<br>
 -Fixed an issue where sprites appeared distorted when resizing bones.<br>

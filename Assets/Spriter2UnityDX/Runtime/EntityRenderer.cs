@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace Spriter2UnityDX {
 	[DisallowMultipleComponent, ExecuteInEditMode]
@@ -22,15 +23,13 @@ namespace Spriter2UnityDX {
 				return _first;
 			}
 		}
+        private Dictionary<String, Material> materialDictionary;
 		public Color Color {
 			get { return (first != null) ? first.color : default(Color); }
 			set { DoForAll (x => x.color = value); }
 		}
 
-		public Material Material {
-			get { return (first != null) ? first.sharedMaterial : null; }
-			set { DoForAll (x => x.sharedMaterial = value); }
-		}
+        public List<Material> MaterialList = new List<Material>();
 
 		public int SortingLayerID {
 			get { return (first != null) ? first.sortingLayerID : 0; }
@@ -62,7 +61,13 @@ namespace Spriter2UnityDX {
 		private void DoForAll (Action<SpriteRenderer> action) {
 			for (var i = 0; i < renderers.Length; i++) action (renderers [i]);
 		}
-
+        public void ApplyMaterials() {
+            foreach (Material material in MaterialList)
+                materialDictionary.Add(material.name, material);
+            foreach (SpriteRenderer r in renderers)
+                if (materialDictionary.ContainsKey(r.name))
+                    r.sharedMaterial = materialDictionary[r.name];
+        }
 		public void RefreshRenders () {
 			renderers = GetComponentsInChildren<SpriteRenderer> (true);
 			_first = null;
